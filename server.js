@@ -40,8 +40,20 @@ inquirer
       ],
     },
   ])
-  .then((answer) => {
-    console.log(answer);
+  .then(({ menu }) => {
+    console.log(menu);
+    if (menu === "View all departments") {
+      db.query(
+        `SELECT  department.id  AS "ID", department.department_name AS "Department"
+        FROM department`,
+        (err, result) => {
+          if (err) {
+            console.log(err);
+          }
+          console.table(result);
+        }
+      );
+    }
   });
 
 // Hardcoded query: DELETE FROM course_names WHERE id = 3;
