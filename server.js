@@ -53,22 +53,19 @@ inquirer
           console.table(result);
         }
       );
+    } else if (menu === "View all roles") {
+      db.query(
+        `SELECT employee_role.id AS "ID", employee_role.title AS "Job Title", employee_role.department_id AS "Department Id", employee_role.salary AS "Salary"
+            FROM employee_role`,
+        (err, result) => {
+          if (err) {
+            console.log(err);
+          }
+          console.table(result);
+        }
+      );
     }
   });
-
-// Hardcoded query: DELETE FROM course_names WHERE id = 3;
-
-// db.query(`DELETE FROM course_names WHERE id = ?`, 3, (err, result) => {
-//   if (err) {
-//     console.log(err);
-//   }
-//   console.log(result);
-// });
-
-// // Query database
-// db.query("SELECT * FROM course_names", function (err, results) {
-//   console.log(results);
-// });
 
 // Default response for any other request (Not Found)
 app.use((req, res) => {

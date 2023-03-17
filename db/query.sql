@@ -9,3 +9,8 @@
 -- Id and Department Names
 SELECT  department.id  AS "ID", department.department_name AS "Department"
 FROM department
+
+-- Employee Role query
+-- Id, Job Title, Department ID, Salary
+SELECT employee_role.id AS "ID", employee_role.title AS "Job Title", employee_role.department_id AS "Department Id", employee_role.salary AS "Salary"
+FROM employee_role
