@@ -64,6 +64,21 @@ inquirer
           console.table(result);
         }
       );
+    } else if (menu === "View all employees") {
+      db.query(
+        `SELECT employee.id AS "ID", employee.first_name AS 'First Name', employee.last_name AS "Last Name", employee_role.title AS "Job Title", department.department_name AS "Department", employee_role.salary AS "Salary", CONCAT(employee.first_name,' ',employee.last_name) AS "manager"
+        FROM employee
+        JOIN employee_role ON employee.role_id = employee_role.id
+        JOIN department ON (department.id = employee_role.department_id)
+        INNER JOIN employee AS manager ON manager.id = employee.manager_id
+        `,
+        (err, result) => {
+          if (err) {
+            console.log(err);
+          }
+          console.table(result);
+        }
+      );
     }
   });
 
