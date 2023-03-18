@@ -132,7 +132,7 @@ function prompt() {
             {
               type: "input",
               name: "role",
-              message: "What department do you want to add?",
+              message: "What role do you want to add?",
             },
             {
               type: "input",

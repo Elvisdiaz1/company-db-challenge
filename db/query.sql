@@ -21,5 +21,6 @@ SELECT employee.id AS "ID", employee.first_name AS 'First Name', employee.last_n
 FROM employee
 JOIN employee_role ON employee.role_id = employee_role.id
 JOIN department ON (department.id = employee_role.department_id)
+-- manager only show up as the same employees instead of assigning the proper employee to be the manager and the employee under the manager.
 INNER JOIN employee AS manager ON manager.id = employee.manager_id
 
