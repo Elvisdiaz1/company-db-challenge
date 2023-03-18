@@ -64,6 +64,8 @@ inquirer
           console.table(result);
         }
       );
+    } else if (menu === "Exit") {
+      db.end();
     } else if (menu === "View all employees") {
       db.query(
         `SELECT employee.id AS "ID", employee.first_name AS 'First Name', employee.last_name AS "Last Name", employee_role.title AS "Job Title", department.department_name AS "Department", employee_role.salary AS "Salary", CONCAT(employee.first_name,' ',employee.last_name) AS "manager"
@@ -132,6 +134,78 @@ inquirer
                 console.log(err);
               }
               console.log(`Added ${role} to database`);
+            }
+          );
+        });
+    } else if (menu === "Add employee") {
+      inquirer
+        .prompt([
+          {
+            type: "input",
+            name: "first_name",
+            message: "What is the employee's first name?",
+          },
+          {
+            type: "input",
+            name: "last_name",
+            message: "What is the employee's last name?",
+          },
+          {
+            type: "list",
+            name: "role",
+            message:
+              "What is their role? Sales Lead is 1, Salesperson is 2, Lead Engineer is 3, Accountant is 4, Lawyer is 5, Other is 6",
+            choices: [1, 2, 3, 4, 5, 6],
+          },
+          {
+            type: "list",
+            name: "manager",
+            message:
+              "Who is their manager? Engineering manager is 1, Finance manager is 2, Legal manager is 3, Sales manager is 4, manager in other categories is 5",
+            choices: ["None", 1, 2, 3, 4, 5],
+          },
+        ])
+        .then(({ first_name, last_name, role, manager }) => {
+          db.query(
+            `INSERT INTO employee (first_name, last_name, role_id, manager_id)
+            VALUES ("${first_name}", "${last_name}", ${role}, ${manager});
+            `,
+            (err, result) => {
+              if (err) {
+                console.log(err);
+              }
+              console.log(`Added ${first_name} ${last_name} to database`);
+            }
+          );
+        });
+    } else if (menu === "Update employee") {
+      inquirer
+        .prompt([
+          {
+            type: "list",
+            name: "employeeId",
+            message:
+              "Who is the employee? Apple McSauce is 1, Butter Sticks is 2, Stan Howard is 3, Stu Coward is 4, Mindy Ming is 5, Alex Bale is 6, Libby Wilds is 7, Jackie Hernandez is 8, New Employee is 9",
+            choices: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+          },
+          {
+            type: "list",
+            name: "role",
+            message:
+              "What is their updated role? Sales Lead is 1, Salesperson is 2, Lead Engineer is 3, Accountant is 4, Lawyer is 5, Other is 6",
+            choices: [1, 2, 3, 4, 5, 6],
+          },
+        ])
+        .then(({ role, employeeId }) => {
+          db.query(
+            `UPDATE employee 
+            SET role_id = ${role}
+            WHERE employee.id = ${employeeId}`,
+            (err, result) => {
+              if (err) {
+                console.log(err);
+              }
+              console.log(`updated the role`);
             }
           );
         });
