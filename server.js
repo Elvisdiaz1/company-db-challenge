@@ -97,7 +97,41 @@ inquirer
               if (err) {
                 console.log(err);
               }
-              console.log(result);
+              console.log(`Added ${department} to database`);
+            }
+          );
+        });
+    } else if (menu === "Add role") {
+      inquirer
+        .prompt([
+          {
+            type: "input",
+            name: "role",
+            message: "What department do you want to add?",
+          },
+          {
+            type: "input",
+            name: "salary",
+            message: "What is the salary?",
+          },
+          {
+            type: "list",
+            name: "department_list",
+            message:
+              "What department does it belong to? Engineering is 1, Finance is 2, Legal is 3, Sales is 4, Other is 5",
+            choices: [1, 2, 3, 4, 5],
+          },
+        ])
+        .then(({ role, salary, department_list }) => {
+          db.query(
+            `INSERT INTO employee_role (title, salary, department_id)
+            VALUES ("${role}", ${salary}, ${department_list});
+            `,
+            (err, result) => {
+              if (err) {
+                console.log(err);
+              }
+              console.log(`Added ${role} to database`);
             }
           );
         });
